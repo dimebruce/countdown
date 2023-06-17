@@ -37,7 +37,9 @@ function App() {
   return (
     <div className="App">
       <h1>Tiempo para ver a Jorgais</h1>
-      <img src="https://media.giphy.com/media/R6gvnAxj2ISzJdbA63/giphy-downsized-large.gif" alt="" className="mx-3"/>
+      <div className="img-container">
+      <img src="https://media.giphy.com/media/R6gvnAxj2ISzJdbA63/giphy-downsized-large.gif" alt="GIF"/>
+      </div>
       <div className="Countdown">
         <div>
           <span>{countdown.days}</span>
