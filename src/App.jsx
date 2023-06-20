@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import './App.css'
+import './App.css';
 
 function App() {
   const targetDate = new Date('2023-07-04T12:30:00'); // Establece la fecha objetivo (puedes cambiarla a la fecha deseada)
+  // const targetDate = new Date('2023-06-20T12:30:00'); // Establece la fecha objetivo (puedes cambiarla a la fecha deseada)
+  // const targetDate = new Date('2023-06-20T19:10:00'); // Establece la fecha objetivo (puedes cambiarla a la fecha deseada)
+  // const targetDate = new Date('2023-06-19T19:59:00'); // Pruebas
   const [countdown, setCountdown] = useState(getTimeRemaining(targetDate));
 
   useEffect(() => {
@@ -20,11 +23,19 @@ function App() {
 
   function getTimeRemaining(endDate) {
     const total = Date.parse(endDate) - Date.now();
-    const seconds = Math.floor((total / 1000) % 60);
-    const minutes = Math.floor((total / 1000 / 60) % 60);
-    const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
-    const days = Math.floor(total / (1000 * 60 * 60 * 24));
-
+    let seconds = Math.floor((total / 1000) % 60);
+    let minutes = Math.floor((total / 1000 / 60) % 60);
+    let hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+    let days = Math.floor(total / (1000 * 60 * 60 * 24));
+  
+    // Ajustar las variables a cero si el tiempo restante es negativo
+    if (total <= 0) {
+      seconds = 0;
+      minutes = 0;
+      hours = 0;
+      days = 0;
+    }
+  
     return {
       total,
       days,
@@ -33,13 +44,33 @@ function App() {
       seconds,
     };
   }
+  
 
   return (
     <div className="App">
-      <h1>Tiempo para ver a Jorgais</h1>
-      <div className="img-container">
-      <img src="https://media.giphy.com/media/R6gvnAxj2ISzJdbA63/giphy-downsized-large.gif" alt="GIF"/>
-      </div>
+      {countdown.total <= 0 ? (
+        <>
+          <h1>¡Ya estamos juntos!</h1>
+          <div className="img-container">
+            <img src="https://media.giphy.com/media/OfkGZ5H2H3f8Y/giphy.gif" alt="GIF" />
+          </div>
+        </>
+      ) : countdown.days === 0 && countdown.hours < 24 ? (
+        <>
+          <h1>Faltan menos de 24 hrs ¡Es hoy!</h1>
+          <div className="img-container">
+            <img src="https://media.giphy.com/media/3rgXBK5ADOuzBWVfjO/giphy.gif" alt="GIF" />
+          </div>
+        </>
+      ) : (
+        <>
+          <h1>Tiempo para ver a Jorgais</h1>
+          <div className="img-container">
+            <img src="https://media.giphy.com/media/R6gvnAxj2ISzJdbA63/giphy-downsized-large.gif" alt="GIF" />
+          </div>
+        </>
+      )}
+  
       <div className="Countdown">
         <div>
           <span>{countdown.days}</span>
@@ -58,13 +89,12 @@ function App() {
           <span>Seconds</span>
         </div>
       </div>
-      
       <div>
-          <h2> 🫶</h2>
-        </div>
+        <h2> 🫶</h2>
+      </div>
     </div>
   );
+  
 }
 
 export default App;
-
